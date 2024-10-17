@@ -1,4 +1,4 @@
-// Developed by Pluto
+// Developed by Sora
 //
 // Copyright(c) Sora Arts 2023-2024
 //
@@ -16,12 +16,26 @@ namespace Sora.DialogueSystem
 {
     public class DialogueTriggerWorld : MonoBehaviour
     {
+        // These sentences will be played one after the another when the "Next" button is pressed
         [SerializeField] private List<string> dialogues;
+        // Whether the dialogues will be played again when the trigger is visited again
+        [SerializeField] private bool replayOnRevisit;
+        
+        // The cooldown after which these dialogues will be played again when visited
+        [ShowIf("replayOnRevisit", true)]
         [SerializeField] private float dialogueReplayCD;
         
+        // If set true, these dialogues from the secondary list will be played
+        [SerializeField] private bool playSecondaryDialogues;
+        [ShowIf("playSecondaryDialogues", true)]
+        [SerializeField] private List<string> secondaryDialogues;
+        [ShowIf("playSecondaryDialogues", true)]
+        [SerializeField] private bool playSingleDialogueRandomly;
+        
+        // Weather an event needs to be fired when the conversation is over
         [SerializeField] private bool fireEventOnCompletion;
         [ShowIf("fireEventOnCompletion", true)]
-        private DialogueEvent dialogueEndEvent;
+        [SerializeField] private DialogueEvent dialogueEndEvent;
 
         private bool next;
         private Coroutine dialogueCoroutine;
@@ -30,11 +44,12 @@ namespace Sora.DialogueSystem
         [SerializeField] private GameObject dialogueCanvas;
         [SerializeField] private TMP_Text dialogueText;
 
-        public bool visited;
+        [HideInInspector] public bool visited;
 
         private void OnEnable()
         {
-
+            InputSystem.PlayerInputManager.instance.inputReader.nextPerformedEvent += OnNext;
+            InputSystem.PlayerInputManager.instance.inputReader.skipPerformedEvent += OnSkip;
         }
         
         private void OnValidate()
@@ -99,12 +114,12 @@ namespace Sora.DialogueSystem
                 dialogueEndEvent.InvokeEvent();
         }
 
-        void OnNext(InputAction.CallbackContext context)
+        void OnNext()
         {
             next = true;
         }
 
-        void OnSkip(InputAction.CallbackContext context)
+        void OnSkip()
         {
             if (dialogueCanvas && dialogueCanvas.activeSelf)
             {

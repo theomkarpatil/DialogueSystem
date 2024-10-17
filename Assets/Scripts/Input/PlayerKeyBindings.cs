@@ -70,6 +70,78 @@ public partial class @PlayerKeyBindings: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerMovement"",
+            ""id"": ""79284c22-f9fb-4682-9af4-cfe35d367bb0"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""68ed1ef2-8fc4-40cc-b949-c9320ca8582d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""bf90386f-b522-4677-8331-c62c1c38e2be"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a4191f51-e4fb-40d6-b833-8b0f3fade177"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""2101b10c-090f-441a-a18a-48ff770494f7"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f2b522d4-c75d-4682-86a7-c54effaa6b16"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""72dc2b0d-411d-48d6-b7d4-3c5bc47b7915"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -78,6 +150,9 @@ public partial class @PlayerKeyBindings: IInputActionCollection2, IDisposable
         m_PlayerInteractions = asset.FindActionMap("PlayerInteractions", throwIfNotFound: true);
         m_PlayerInteractions_NextDialogue = m_PlayerInteractions.FindAction("NextDialogue", throwIfNotFound: true);
         m_PlayerInteractions_SkipDialogue = m_PlayerInteractions.FindAction("SkipDialogue", throwIfNotFound: true);
+        // PlayerMovement
+        m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
+        m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -189,9 +264,59 @@ public partial class @PlayerKeyBindings: IInputActionCollection2, IDisposable
         }
     }
     public PlayerInteractionsActions @PlayerInteractions => new PlayerInteractionsActions(this);
+
+    // PlayerMovement
+    private readonly InputActionMap m_PlayerMovement;
+    private List<IPlayerMovementActions> m_PlayerMovementActionsCallbackInterfaces = new List<IPlayerMovementActions>();
+    private readonly InputAction m_PlayerMovement_Movement;
+    public struct PlayerMovementActions
+    {
+        private @PlayerKeyBindings m_Wrapper;
+        public PlayerMovementActions(@PlayerKeyBindings wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_PlayerMovement_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerMovementActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerMovementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        private void UnregisterCallbacks(IPlayerMovementActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        public void RemoveCallbacks(IPlayerMovementActions instance)
+        {
+            if (m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerMovementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerMovementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
     public interface IPlayerInteractionsActions
     {
         void OnNextDialogue(InputAction.CallbackContext context);
         void OnSkipDialogue(InputAction.CallbackContext context);
+    }
+    public interface IPlayerMovementActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
