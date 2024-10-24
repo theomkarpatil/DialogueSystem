@@ -9,14 +9,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Sora.Events;
-using UnityEngine.InputSystem;
 
 namespace Sora.DialogueSystem
 {
     public enum ESecondaryDialogue
     {
-        SELECT_ONE,
+        PLEASE_SELECT_ONE,
         [Tooltip("plays the secondary dialogues once similar to the primary dialogues")]
         LINEAR,
         [Tooltip("plays secondary dialogues 1 by 1 in order")]
@@ -57,6 +55,7 @@ namespace Sora.DialogueSystem
         
         [Space]
         // Weather an event needs to be fired when the conversation is over
+        // Event will be auto created through code
         [SerializeField] private bool fireEventOnCompletion;
         [ShowIf("fireEventOnCompletion", true)]
         [SerializeField] private DialogueEvent dialogueEndEvent;
@@ -84,7 +83,7 @@ namespace Sora.DialogueSystem
             if (!replayOnRevisit)
             {
                 playSecondaryDialogues = false;
-                secondaryDialogueType = ESecondaryDialogue.SELECT_ONE;
+                secondaryDialogueType = ESecondaryDialogue.PLEASE_SELECT_ONE;
             }
 
             if (fireEventOnCompletion)
@@ -102,9 +101,7 @@ namespace Sora.DialogueSystem
                 {
                     UnityEditor.AssetDatabase.DeleteAsset(assetPath);    
                 }
-            }
-
-            
+            }            
 #endif
         }
 
@@ -116,21 +113,20 @@ namespace Sora.DialogueSystem
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!visited)
-            {
-                visited = true;
-                List<string> _dialogues = new List<string>();
-                _dialogues = dialogues;
-                dialogueCoroutine = StartCoroutine(ShowDialogue(_dialogues));
-            }
+            CheckForDialogues();
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            CheckForDialogues();
+        }
+
+        private void CheckForDialogues()
+        {
             if (DialogueSystemWorld.instance.CanPlayConversation(this) && !visited)
             {
                 DialogueSystemWorld.instance.conversing = true;
-                
+
                 InputSystem.PlayerInputManager.instance.inputReader.nextPerformedEvent += OnNext;
                 InputSystem.PlayerInputManager.instance.inputReader.skipPerformedEvent += OnSkip;
 
@@ -159,7 +155,7 @@ namespace Sora.DialogueSystem
                                 dialogueCoroutine = StartCoroutine(ShowDialogueOneByOne(_dialogues, false));
                             }
                             break;
-                        case ESecondaryDialogue.SELECT_ONE:
+                        case ESecondaryDialogue.PLEASE_SELECT_ONE:
                             {
                                 _dialogues = secondaryDialogues;
                                 dialogueCoroutine = StartCoroutine(ShowDialogue(_dialogues));
@@ -285,16 +281,17 @@ namespace Sora.DialogueSystem
         {
             if (dialogueCanvas && dialogueCanvas.activeSelf)
             {
-
                 StopCoroutine(dialogueCoroutine);
                 dialogueCanvas.SetActive(false);
                 if (fireEventOnCompletion)
                     dialogueEndEvent.InvokeEvent();
 
                 if (replayOnlyOnSkip)
-                    skipped = true;
+                    skipped = true; 
                 if(replayOnRevisit)
                     resetDialogueCoroutine = StartCoroutine(ResetDialogueCD());
+
+                DialogueSystemWorld.instance.conversing = false;
             }
         }
     }

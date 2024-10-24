@@ -19,7 +19,7 @@ namespace Sora.Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float movementSpeed;
-        public Vector3 moveDirection;
+        private Vector3 moveDirection;
 
         private void OnEnable()
         {
