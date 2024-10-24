@@ -8,7 +8,7 @@ namespace Sora.DialogueSystem
 {
     public class DialogueSystemWorld : Managers.Singleton<DialogueSystemWorld>
     {
-        public bool conversing;
+        [HideInInspector] public bool conversing;
 
         [Tooltip("if two Conversations are linked, the \"Value\" will only play once the \"Key\"s primary conversation completes")]
         public SerializedDictionary<DialogueTriggerWorld, DialogueTriggerWorld> linkedConversations;
