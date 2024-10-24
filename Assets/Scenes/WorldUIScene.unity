@@ -122,56 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &20225232
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 20225233}
-  - component: {fileID: 20225234}
-  m_Layer: 0
-  m_Name: DialogueSystemWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &20225233
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20225232}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &20225234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20225232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 176d2c0c7f2f7c24382abcb3ca743964, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  conversing: 0
-  linkedConversations:
-    pairs:
-    - key: {fileID: 1439564790}
-      value: {fileID: 2099641799}
-    error: 0
 --- !u!1 &111868766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1968,7 +1918,7 @@ Transform:
   m_GameObject: {fileID: 937910325}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -8}
+  m_LocalPosition: {x: 0, y: 1, z: 11.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3497,7 +3447,8 @@ PrefabInstance:
         type: 3}
       propertyPath: dialogueEndEvent
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 6842d2b334b1280429c65d835480716b,
+        type: 2}
     - target: {fileID: 8942723612604034171, guid: a552926cdcaa25f4c8b7e8c53128f684,
         type: 3}
       propertyPath: dialogueReplayCD
@@ -5368,6 +5319,94 @@ Transform:
   - {fileID: 7387736637157284937}
   m_Father: {fileID: 1479840162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &5899222296730300623
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 119050562984692876, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: linkedConversations.error
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 119050562984692876, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: linkedConversations.pairs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 119050562984692876, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: linkedConversations.pairs.Array.data[0].key
+      value: 
+      objectReference: {fileID: 1439564790}
+    - target: {fileID: 119050562984692876, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: linkedConversations.pairs.Array.data[0].value
+      value: 
+      objectReference: {fileID: 2099641799}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019565770269002409, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542109570622506573, guid: cd9f6ad7859f3b943950b7bc00adc96e,
+        type: 3}
+      propertyPath: m_Name
+      value: DialogueSystemWorld
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd9f6ad7859f3b943950b7bc00adc96e, type: 3}
 --- !u!224 &6511543897741234947
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5450,8 +5489,8 @@ MonoBehaviour:
   - Go ahead, explore more variations!
   dialogueTypeSpeed: 0.03
   replayOnRevisit: 0
-  dialogueReplayCD: 0
-  replayOnlyOnSkip: 0
+  dialogueReplayCD: 4
+  replayOnlyOnSkip: 1
   playSecondaryDialogues: 0
   secondaryDialogueType: 0
   secondaryDialogues: []
@@ -5665,6 +5704,6 @@ SceneRoots:
   - {fileID: 1664895504}
   - {fileID: 310902683}
   - {fileID: 1693545958}
-  - {fileID: 20225233}
+  - {fileID: 5899222296730300623}
   - {fileID: 4472045263693453170}
   - {fileID: 943923500}

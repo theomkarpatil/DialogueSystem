@@ -61,7 +61,7 @@ public partial class @PlayerKeyBindings: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""99b274d5-b68b-4e2c-bf67-5df8ad108f4c"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/capsLock"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
